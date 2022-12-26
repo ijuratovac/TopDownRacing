@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour {
 
-    [Header("Car settings")]
-    public float driftFactor = 0.95f;
-    public float accelerationFactor = 30.0f;
-    public float turnFactor = 3.5f;
-    public float maxSpeed = 20.0f;
+    float driftFactor = 0.8f;
+    float accelerationFactor = 0.5f;
+    float turnFactor = 10f;
+    float maxSpeed = 10.0f;
 
     float accelerationInput = 0;
     float steeringInput = 0;
@@ -36,7 +35,7 @@ public class CarController : MonoBehaviour {
     }
 
     void ApplyEngineForce() {
-        // Calculate how much forward we are going in terms of the direction of our velocity
+        // Calculate velocity with the direction of the car (negative = reverse)
         velocityVsUp = Vector2.Dot(transform.up, carRB.velocity);
 
         // Limit so we cannot drive forwards faster than the max speed
@@ -56,7 +55,7 @@ public class CarController : MonoBehaviour {
 
         // Apply drag if there is no accelerationInput so the car stops when the player lets go of the accelerator
         if (accelerationInput == 0) {
-            carRB.drag = Mathf.Lerp(carRB.drag, 3.0f, Time.fixedDeltaTime * 3);
+            carRB.drag = Mathf.Lerp(carRB.drag, 0.3f, Time.fixedDeltaTime);
         }
         else {
             carRB.drag = 0;
@@ -70,12 +69,19 @@ public class CarController : MonoBehaviour {
     }
 
     void ApplySteering() {
-        // Limit the car's ability to turn when moving slowly
-        float minSpeedToTurn = (carRB.velocity.magnitude / 8);
-        minSpeedToTurn = Mathf.Clamp01(minSpeedToTurn);
+        // If the car is moving slowly
+        if (carRB.velocity.magnitude < 1) {
+            // Limit the car's ability to turn
+            float minSpeedToTurn = (carRB.velocity.magnitude / 8);
+            minSpeedToTurn = Mathf.Clamp01(minSpeedToTurn);
 
-        // Update the rotation angle based on input
-        rotationAngle -= steeringInput * turnFactor * minSpeedToTurn;
+            // Update the rotation angle based on input
+            rotationAngle -= steeringInput * turnFactor * minSpeedToTurn;
+        }
+        else {
+            // Update the rotation angle based on input
+            rotationAngle -= steeringInput * turnFactor / 10;
+        }
 
         // Apply steering by rotating the car object
         carRB.MoveRotation(rotationAngle);
@@ -89,7 +95,27 @@ public class CarController : MonoBehaviour {
     }
 
     public void SetInputVector(Vector2 inputVector) {
+        // Calculate velocity with the direction of the car (negative = reverse)
+        velocityVsUp = Vector2.Dot(transform.up, carRB.velocity);
+
         steeringInput = inputVector.x;
         accelerationInput = inputVector.y;
+
+        // If the car is moving backwards
+        if (velocityVsUp < 0) {
+            // Invert steering
+            steeringInput = -steeringInput;
+
+            // Increase acceleration to imitate braking
+            if (accelerationInput > 0) { 
+                accelerationInput *= 5;
+            }
+        }
+        else {
+            // Increase acceleration to imitate braking
+            if (accelerationInput < 0) {
+                accelerationInput *= 5;
+            }
+        }
     }
 }
