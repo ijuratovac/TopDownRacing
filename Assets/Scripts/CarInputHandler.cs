@@ -15,8 +15,13 @@ public class CarInputHandler : MonoBehaviour {
     void Update() {
         Vector2 inputVector = Vector2.zero;
 
-        inputVector.x = Input.GetAxisRaw("Horizontal");
-        inputVector.y = Input.GetAxisRaw("Vertical");
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
+            inputVector.y = 1;
+        }
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
+            inputVector.y = -1;
+        }
+        inputVector.x = -Input.GetAxisRaw("Horizontal");
 
         carController.SetInputVector(inputVector);
     }

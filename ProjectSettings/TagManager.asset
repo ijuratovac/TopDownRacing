@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Skidmarks
+    uniqueID: 1343212627
+    locked: 0
+  - name: Car
+    uniqueID: 2811777369
+    locked: 0
