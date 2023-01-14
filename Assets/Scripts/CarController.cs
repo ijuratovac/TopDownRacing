@@ -1,12 +1,13 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class CarController : MonoBehaviour {
 
-    float driftFactor = 0.7f;
-    float accelerationFactor = 0.5f;
-    float turnFactor = 10f;
-    float maxSpeed = 6.0f;
+    public float driftFactor;
+    public float accelerationFactor;
+    public float turnFactor;
+    public float maxSpeed;
 
     float accelerationInput = 0;
     float steeringInput = 0;
@@ -18,10 +19,22 @@ public class CarController : MonoBehaviour {
     float timer;
     float driftDelay;
 
+    public enum Surface {
+        Asphalt = 0,
+        Drift = 1,
+        Dirt = 2,
+        Sand = 3,
+        Grass = 4,
+        Unknown = 5
+    }
+    public Surface surface;
+
     Rigidbody2D carRB;
 
     void Awake() {
         carRB = GetComponent<Rigidbody2D>();
+        surface = Surface.Unknown;
+        setAsphaltGrip();
     }
 
     void Start() {
@@ -115,37 +128,88 @@ public class CarController : MonoBehaviour {
             carIsDrifting = false;
         }
 
-        if (carIsDrifting) {
-            setDriftGrip();
+        if (surface == Surface.Asphalt) {
+            if (carIsDrifting) {
+                setDriftGrip();
+                Debug.Log("drift");
+            }
+            else {
+                setAsphaltGrip();
+                Debug.Log("asphalt");
+            }
         }
-        else {
+        else if (surface == Surface.Dirt) {
+            carIsDrifting = true;
+            setDirtGrip();
+            Debug.Log("dirt");
+        }
+        else if (surface == Surface.Sand) {
+            carIsDrifting = true;
+            setSandGrip();
+            Debug.Log("sand");
+        }
+        else if (surface == Surface.Grass) {
+            carIsDrifting = true;
+            setGrassGrip();
+            Debug.Log("grass");
+        }
+        else if (surface == Surface.Unknown) {
             setAsphaltGrip();
+            Debug.Log("unknown");
         }
 
         carRB.velocity = forwardVelocity + rightVelocity * driftFactor;
     }
 
-    void setAsphaltGrip() {
+    public void setAsphaltGrip() {
         driftFactor = 0.7f;
         accelerationFactor = 0.5f;
-        turnFactor = 70f;
+        turnFactor = 0.8f;
         maxSpeed = 6.0f;
         carRB.angularDrag = 10;
+        surface = Surface.Asphalt;
     }
 
-    void setDriftGrip() {
+    public void setDriftGrip() {
         driftFactor = 0.95f;
-        accelerationFactor = driftAngle / 20;
-        turnFactor = 70f;
+        accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.5f, 10f);
+        turnFactor = 0.8f;
         maxSpeed = 6.0f;
         carRB.angularDrag = 2;
+        surface = Surface.Drift;
+    }
+
+    public void setDirtGrip() {
+        driftFactor = 0.96f;
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 10f);
+        turnFactor = 1f;
+        maxSpeed = 5f;
+        carRB.angularDrag = 3;
+    }
+
+    public void setSandGrip() {
+        driftFactor = 0.98f;
+        accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.5f, 10f);
+        turnFactor = 0.5f;
+        maxSpeed = 2f;
+        carRB.angularDrag = 2;
+        surface = Surface.Sand;
+    }
+
+    public void setGrassGrip() {
+        driftFactor = 0.97f;
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 10f);
+        turnFactor = 1f;
+        maxSpeed = 3f;
+        carRB.angularDrag = 2;
+        surface = Surface.Grass;
     }
 
     public bool IsTireScreeching() {
-        if (carIsDrifting) {
-            return true;
+        if (surface == Surface.Asphalt && carIsDrifting == false) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void SetInputVector(Vector2 inputVector) {
@@ -168,5 +232,21 @@ public class CarController : MonoBehaviour {
                 accelerationInput *= 5;
             }
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision) {
+        if (collision.tag == "Asphalt") {
+            surface = Surface.Asphalt;
+        }
+        else if (collision.tag == "Dirt") {
+            surface = Surface.Dirt;
+        }
+        else if (collision.tag == "Sand") {
+            surface = Surface.Sand;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        surface = Surface.Grass;
     }
 }
