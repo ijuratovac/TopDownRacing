@@ -33,8 +33,8 @@ public class CarController : MonoBehaviour {
 
     void Awake() {
         carRB = GetComponent<Rigidbody2D>();
-        surface = Surface.Unknown;
-        setAsphaltGrip();
+        surface = Surface.Grass;
+        setGrassGrip();
     }
 
     void Start() {
@@ -131,31 +131,25 @@ public class CarController : MonoBehaviour {
         if (surface == Surface.Asphalt) {
             if (carIsDrifting) {
                 setDriftGrip();
-                Debug.Log("drift");
             }
             else {
                 setAsphaltGrip();
-                Debug.Log("asphalt");
             }
         }
         else if (surface == Surface.Dirt) {
             carIsDrifting = true;
             setDirtGrip();
-            Debug.Log("dirt");
         }
         else if (surface == Surface.Sand) {
             carIsDrifting = true;
             setSandGrip();
-            Debug.Log("sand");
         }
         else if (surface == Surface.Grass) {
             carIsDrifting = true;
             setGrassGrip();
-            Debug.Log("grass");
         }
         else if (surface == Surface.Unknown) {
             setAsphaltGrip();
-            Debug.Log("unknown");
         }
 
         carRB.velocity = forwardVelocity + rightVelocity * driftFactor;
