@@ -1,33 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour {
-    int checkpointCount = 0;
-    int checkpointsCollected = 0;
+
+    public List<GameObject> checkpoints;
+    int totalCheckpoints;
     bool finished = false;
 
     private void Start() {
-        // Get number of checkpoints
-        checkpointCount = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
-        Debug.Log($"Total checkpoints: {checkpointCount}");
+        totalCheckpoints = checkpoints.Count;
+        Debug.Log($"Checkpoints left: {checkpoints.Count}");
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Checkpoint")) {
-            // Collect the checkpoint if it's active, then deactivate it
-            Checkpoint checkpoint = collision.GetComponent<Checkpoint>();
-            if (checkpoint.IsActive()) {
-                checkpointsCollected++;
-                checkpoint.Deactivate();
-                Debug.Log($"Collected checkpoints: {checkpointsCollected}");
+            // Remove the checkpoint from the list if it exists
+            if (checkpoints.Contains(collision.gameObject)) {
+                checkpoints.Remove(collision.gameObject);
+                Debug.Log($"Checkpoints left: {checkpoints.Count}");
             }
         }
         else if (collision.CompareTag("Finish")) {
             // If all checkpoints are collected, trigger the finish
-            if (checkpointsCollected >= checkpointCount && finished == false) {
+            if (checkpoints.Count == 0 && finished == false) {
                 finished = true;
                 Debug.Log("Finished!");
                 Debug.Log(Time.realtimeSinceStartup);
             }
         }
+    }
+
+    public int GetTotalCheckpoints() {
+        return totalCheckpoints;
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 958302176456319956}
   - component: {fileID: 958302176456319962}
   - component: {fileID: 958302176456319957}
-  - component: {fileID: 6356150743924698793}
   m_Layer: 0
   m_Name: checkpoint_stripe
   m_TagString: Checkpoint
@@ -108,18 +107,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &6356150743924698793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958302176456319959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a103b6b5834eaf543adc64c771b1b74a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &958302176865200121
 GameObject:
   m_ObjectHideFlags: 0

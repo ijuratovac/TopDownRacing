@@ -24,8 +24,7 @@ public class CarController : MonoBehaviour {
         Drift = 1,
         Dirt = 2,
         Sand = 3,
-        Grass = 4,
-        Unknown = 5
+        Grass = 4
     }
     public Surface surface;
 
@@ -39,10 +38,6 @@ public class CarController : MonoBehaviour {
 
     void Start() {
         timer = Time.fixedDeltaTime;
-    }
-
-    void Update() {
-        
     }
 
     void FixedUpdate() {
@@ -148,9 +143,6 @@ public class CarController : MonoBehaviour {
             carIsDrifting = true;
             setGrassGrip();
         }
-        else if (surface == Surface.Unknown) {
-            setAsphaltGrip();
-        }
 
         carRB.velocity = forwardVelocity + rightVelocity * driftFactor;
     }
@@ -242,5 +234,9 @@ public class CarController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision) {
         surface = Surface.Grass;
+    }
+
+    public float GetCarSpeed() {
+        return velocityVsUp;
     }
 }
