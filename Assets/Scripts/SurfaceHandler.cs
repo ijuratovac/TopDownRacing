@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static CarController;
 
-public class SurfaceHandler : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class SurfaceHandler : MonoBehaviour {
+
+    string surface;
+
+    void Start() {
+        surface = "Grass";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnTriggerStay2D(Collider2D collision) {
+        switch (collision.tag) {
+            case "Asphalt":
+            case "Dirt":
+            case "Sand":
+            case "Grass":
+                surface = collision.tag;
+                break;
+        }
+    }
+
+    public string GetSurface() {
+        return surface;
     }
 }

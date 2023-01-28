@@ -19,20 +19,15 @@ public class CarController : MonoBehaviour {
     float timer;
     float driftDelay;
 
-    public enum Surface {
-        Asphalt = 0,
-        Drift = 1,
-        Dirt = 2,
-        Sand = 3,
-        Grass = 4
-    }
-    public Surface surface;
+    public string surface;
+    SurfaceHandler surfaceHandler;
 
     Rigidbody2D carRB;
 
     void Awake() {
+        surfaceHandler = GetComponentInChildren<SurfaceHandler>();
         carRB = GetComponent<Rigidbody2D>();
-        surface = Surface.Grass;
+        surface = "Grass";
         setGrassGrip();
     }
 
@@ -95,8 +90,14 @@ public class CarController : MonoBehaviour {
             steering = steeringInput * turnFactor * minSpeedToTurn;
         }
         else {
-            // Update the rotation angle based on input
-            steering = steeringInput * turnFactor / 8;
+            if (carIsDrifting || surface != "Asphalt") {
+                // Update the rotation angle based on input, but limit steering more
+                steering = steeringInput * turnFactor / Mathf.Lerp(16, 8, velocityVsUp / 5);
+            }
+            else {
+                // Update the rotation angle based on input
+                steering = steeringInput * turnFactor / 8;
+            }
         }
 
         // Apply steering by rotating the car object
@@ -123,7 +124,9 @@ public class CarController : MonoBehaviour {
             carIsDrifting = false;
         }
 
-        if (surface == Surface.Asphalt) {
+        surface = surfaceHandler.GetSurface();
+
+        if (surface == "Asphalt") {
             if (carIsDrifting) {
                 setDriftGrip();
             }
@@ -131,15 +134,15 @@ public class CarController : MonoBehaviour {
                 setAsphaltGrip();
             }
         }
-        else if (surface == Surface.Dirt) {
+        else if (surface == "Dirt") {
             carIsDrifting = true;
             setDirtGrip();
         }
-        else if (surface == Surface.Sand) {
+        else if (surface == "Sand") {
             carIsDrifting = true;
             setSandGrip();
         }
-        else if (surface == Surface.Grass) {
+        else if (surface == "Grass") {
             carIsDrifting = true;
             setGrassGrip();
         }
@@ -153,7 +156,7 @@ public class CarController : MonoBehaviour {
         turnFactor = 0.8f;
         maxSpeed = 6.0f;
         carRB.angularDrag = 10;
-        surface = Surface.Asphalt;
+        surface = "Asphalt";
     }
 
     public void setDriftGrip() {
@@ -162,7 +165,7 @@ public class CarController : MonoBehaviour {
         turnFactor = 0.8f;
         maxSpeed = 6.0f;
         carRB.angularDrag = 2;
-        surface = Surface.Drift;
+        surface = "Asphalt";
     }
 
     public void setDirtGrip() {
@@ -179,7 +182,7 @@ public class CarController : MonoBehaviour {
         turnFactor = 0.5f;
         maxSpeed = 2f;
         carRB.angularDrag = 2;
-        surface = Surface.Sand;
+        surface = "Sand";
     }
 
     public void setGrassGrip() {
@@ -188,11 +191,11 @@ public class CarController : MonoBehaviour {
         turnFactor = 1f;
         maxSpeed = 3f;
         carRB.angularDrag = 2;
-        surface = Surface.Grass;
+        surface = "Grass";
     }
 
     public bool IsTireScreeching() {
-        if (surface == Surface.Asphalt && carIsDrifting == false) {
+        if (surface == "Asphalt" && carIsDrifting == false) {
             return false;
         }
         return true;
@@ -218,22 +221,6 @@ public class CarController : MonoBehaviour {
                 accelerationInput *= 5;
             }
         }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.tag == "Asphalt") {
-            surface = Surface.Asphalt;
-        }
-        else if (collision.tag == "Dirt") {
-            surface = Surface.Dirt;
-        }
-        else if (collision.tag == "Sand") {
-            surface = Surface.Sand;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision) {
-        surface = Surface.Grass;
     }
 
     public float GetCarSpeed() {
