@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour {
 
-    public float driftFactor;
-    public float accelerationFactor;
-    public float turnFactor;
-    public float maxSpeed;
+    float driftFactor;
+    float accelerationFactor;
+    float turnFactor;
+    float maxSpeed;
 
     float accelerationInput = 0;
     float steeringInput = 0;
@@ -111,13 +111,6 @@ public class CarController : MonoBehaviour {
         // How fast the car is moving sideways
         driftAngle = Vector2.Angle(forwardVelocity, carRB.velocity);
 
-        // If the car is moving forwards and braking
-        if (accelerationInput < 0 && velocityVsUp > 0) {
-            // Start drifting
-            carIsDrifting = true;
-            driftDelay = timer;
-        }
-
         // If the car has low side movement and 0.3s has passed
         if (Mathf.Abs(driftAngle) < 5 && (timer - driftDelay) > 0.3f) {
             // Stop drifting
@@ -205,20 +198,49 @@ public class CarController : MonoBehaviour {
         steeringInput = inputVector.x;
         accelerationInput = inputVector.y;
 
-        // If the car is moving backwards
-        if (velocityVsUp < 0) {
-            // Invert steering
-            steeringInput = -steeringInput;
+        InvertBackwardsSteering();
 
-            // Increase acceleration to imitate braking
-            if (accelerationInput > 0) { 
-                accelerationInput *= 5;
+        HandleBraking(inputVector);
+    }
+
+    private void InvertBackwardsSteering() {
+        if (velocityVsUp < 0) {
+            steeringInput = -steeringInput;
+        }
+    }
+
+    private void HandleBraking(Vector2 inputVector) {
+        Vector2 brakeVelocity = -carRB.velocity;
+        Debug.Log(velocityVsUp);
+        // Going backwards
+        if (velocityVsUp < -0.1f) {
+            if (accelerationInput > 0) {
+                accelerationInput = 0;
+                carRB.AddForce(brakeVelocity);
+                carIsDrifting = true;
+                driftDelay = timer;
+            }
+            else {
+                accelerationInput = inputVector.y;
+            }
+        }
+        // Going forwards
+        else if (velocityVsUp > 0.1f) {
+            if (accelerationInput < 0) {
+                accelerationInput = 0;
+                carRB.AddForce(brakeVelocity / 2);
+                carIsDrifting = true;
+                driftDelay = timer;
+            }
+            else {
+                accelerationInput = inputVector.y;
             }
         }
         else {
-            // Increase acceleration to imitate braking
-            if (accelerationInput < 0) {
-                accelerationInput *= 5;
+            accelerationInput = inputVector.y;
+            // Stop the car if there's no acceleration and it's moving very slowly
+            if (accelerationInput == 0 && Mathf.Abs(velocityVsUp) < 0.05f) {
+                carRB.velocity = new Vector2(0, 0);
             }
         }
     }

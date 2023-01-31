@@ -1,26 +1,38 @@
+using System.Collections.Generic;
 using UnityEngine;
-using static CarController;
 
 public class SurfaceHandler : MonoBehaviour {
 
-    string surface;
+    List<string> surfaces;
 
     void Start() {
-        surface = "Grass";
+        surfaces = new List<string>();
     }
 
-    private void OnTriggerStay2D(Collider2D collision) {
-        switch (collision.tag) {
-            case "Asphalt":
-            case "Dirt":
-            case "Sand":
-            case "Grass":
-                surface = collision.tag;
-                break;
-        }
+    private void OnTriggerEnter2D(Collider2D collision) {
+        surfaces.Insert(0, collision.tag);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        surfaces.Remove(collision.tag);
     }
 
     public string GetSurface() {
-        return surface;
+        if (surfaces.Contains("Asphalt")) {
+            return "Asphalt";
+        }
+        if (surfaces.Contains("Dirt")) {
+            return "Dirt";
+        }
+        if (surfaces.Contains("Sand")) {
+            return "Sand";
+        }
+        if (surfaces.Contains("Grass")) {
+            return "Grass";
+        }
+        if (surfaces.Count == 0) {
+            return "Grass";
+        }
+        return surfaces[0];
     }
 }
