@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5777345209424339595}
   - component: {fileID: 2464020849619400054}
   m_Layer: 0
-  m_Name: barrel_red
+  m_Name: barrier_corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,10 +71,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1483189927
-  m_SortingLayer: 2
+  m_SortingLayerID: 940060793
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0f3f628d707621940871d14820a0338f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce6b5e865a683ee41ac01f9536a50aaf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

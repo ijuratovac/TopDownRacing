@@ -55,3 +55,6 @@ TagManager:
   - name: Car
     uniqueID: 2811777369
     locked: 0
+  - name: Objects
+    uniqueID: 940060793
+    locked: 0

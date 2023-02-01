@@ -24,6 +24,9 @@ public class CarController : MonoBehaviour {
 
     Rigidbody2D carRB;
 
+    bool controlsEnabled = false;
+    float runTime = 0;
+
     void Awake() {
         surfaceHandler = GetComponentInChildren<SurfaceHandler>();
         carRB = GetComponent<Rigidbody2D>();
@@ -35,12 +38,23 @@ public class CarController : MonoBehaviour {
         timer = Time.fixedDeltaTime;
     }
 
+    void Update() {
+        if (controlsEnabled) {
+            runTime += Time.deltaTime;
+        }
+    }
+
     void FixedUpdate() {
-        ApplyEngineForce();
+        surface = surfaceHandler.GetSurface();
 
-        ApplyGrip();
-
-        ApplySteering();
+        if (controlsEnabled) {
+            ApplyEngineForce();
+            ApplyGrip();
+            ApplySteering();
+        }
+        else {
+            StopTheCar();
+        }
 
         timer += Time.fixedDeltaTime;
     }
@@ -117,8 +131,6 @@ public class CarController : MonoBehaviour {
             carIsDrifting = false;
         }
 
-        surface = surfaceHandler.GetSurface();
-
         if (surface == "Asphalt") {
             if (carIsDrifting) {
                 setDriftGrip();
@@ -145,7 +157,7 @@ public class CarController : MonoBehaviour {
 
     public void setAsphaltGrip() {
         driftFactor = 0.7f;
-        accelerationFactor = 0.5f;
+        accelerationFactor = 0.8f;
         turnFactor = 0.8f;
         maxSpeed = 6.0f;
         carRB.angularDrag = 10;
@@ -211,7 +223,6 @@ public class CarController : MonoBehaviour {
 
     private void HandleBraking(Vector2 inputVector) {
         Vector2 brakeVelocity = -carRB.velocity;
-        Debug.Log(velocityVsUp);
         // Going backwards
         if (velocityVsUp < -0.1f) {
             if (accelerationInput > 0) {
@@ -247,5 +258,26 @@ public class CarController : MonoBehaviour {
 
     public float GetCarSpeed() {
         return velocityVsUp;
+    }
+
+    public float GetRunTime() {
+        return runTime;
+    }
+
+    public bool ControlsAreEnabled() {
+        return controlsEnabled;
+    }
+
+    public void EnableControls() {
+        controlsEnabled = true;
+    }
+
+    public void DisableControls() {
+        controlsEnabled = false;
+    }
+
+    private void StopTheCar() {
+        carIsDrifting = true;
+        carRB.AddForce(-carRB.velocity * 2);
     }
 }

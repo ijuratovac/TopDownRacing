@@ -28,20 +28,31 @@ public class GameManager : MonoBehaviour {
         quitBtn.onClick.AddListener(Quit);
 
         startBtn = GameObject.Find("Start").GetComponent<Button>();        
-        startBtn.onClick.AddListener(LoadSampleScene);
+        startBtn.onClick.AddListener(LoadA1);
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (currentScene == 1) {
+        if (currentScene >= 1) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
                 LoadMainMenu();
+            }
+            else if (Input.GetKeyDown(KeyCode.Delete)) {
+                ReloadScene();
             }
         }
     }
 
     void Quit() {
-        //UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
+    }
+
+    void ReloadScene() {
+        SceneManager.LoadScene(currentScene);
+    }
+
+    void LoadMainMenu() {
+        SceneManager.LoadScene(0);
+        currentScene = 0;
     }
 
     void LoadSampleScene() {
@@ -49,9 +60,9 @@ public class GameManager : MonoBehaviour {
         currentScene = 1;
     }
 
-    void LoadMainMenu() {
-        SceneManager.LoadScene(0);
-        currentScene = 0;
+    void LoadA1() {
+        SceneManager.LoadScene(2);
+        currentScene = 2;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {

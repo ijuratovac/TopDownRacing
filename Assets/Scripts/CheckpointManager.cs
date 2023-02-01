@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour {
 
+    CarController carController;
+
     public List<GameObject> checkpoints;
     int totalCheckpoints;
     bool finished = false;
 
     private void Start() {
+        carController = GetComponent<CarController>();
         totalCheckpoints = checkpoints.Count;
         Debug.Log($"Checkpoints left: {checkpoints.Count}");
     }
@@ -25,12 +28,8 @@ public class CheckpointManager : MonoBehaviour {
             if (checkpoints.Count == 0 && finished == false) {
                 finished = true;
                 Debug.Log("Finished!");
-                Debug.Log(Time.realtimeSinceStartup);
+                carController.DisableControls();
             }
         }
-    }
-
-    public int GetTotalCheckpoints() {
-        return totalCheckpoints;
     }
 }
