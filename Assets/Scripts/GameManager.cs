@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
             quitBtn.onClick.AddListener(Quit);
 
             startBtn = GameObject.Find("Start").GetComponent<Button>();
-            startBtn.onClick.AddListener(LoadSampleScene);
+            startBtn.onClick.AddListener(LoadA1);
         }
     }
 }
