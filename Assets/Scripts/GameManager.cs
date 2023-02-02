@@ -6,12 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager sharedInstance = null;
 
-    public Button quitBtn;
-    public Button startBtn;
-
     int currentScene = 0;
-
-    LevelLoader levelLoader;
 
     void Awake() {
         if (sharedInstance != null && sharedInstance != this) {
@@ -36,11 +31,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void Quit() {
-        UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
-    }
-
     void ReloadScene() {
         SceneManager.LoadScene(currentScene);
     }
@@ -50,26 +40,7 @@ public class GameManager : MonoBehaviour {
         currentScene = 0;
     }
 
-    void LoadSampleScene() {
-        SceneManager.LoadScene(1);
-        currentScene = 1;
-    }
-
-    void LoadA1() {
-        levelLoader.LoadLevel(2);
-        //SceneManager.LoadScene(2);
-        currentScene = 2;
-    }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (scene.buildIndex == 0) {
-            //quitBtn = GameObject.Find("Quit").GetComponent<Button>();
-            quitBtn.onClick.AddListener(Quit);
-
-            //startBtn = GameObject.Find("Start").GetComponent<Button>();
-            startBtn.onClick.AddListener(LoadA1);
-
-            levelLoader = GetComponent<LevelLoader>();
-        }
+        currentScene = scene.buildIndex;
     }
 }

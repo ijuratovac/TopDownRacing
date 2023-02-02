@@ -250,7 +250,7 @@ public class CarController : MonoBehaviour {
         else {
             accelerationInput = inputVector.y;
             // Stop the car if there's no acceleration and it's moving very slowly
-            if (accelerationInput == 0 && Mathf.Abs(velocityVsUp) < 0.05f) {
+            if (accelerationInput == 0 && Mathf.Abs(carRB.velocity.magnitude) < 0.05f) {
                 carRB.velocity = new Vector2(0, 0);
             }
         }
@@ -277,7 +277,13 @@ public class CarController : MonoBehaviour {
     }
 
     private void StopTheCar() {
-        carIsDrifting = true;
-        carRB.AddForce(-carRB.velocity * 2);
+        float magnitude = Mathf.Abs(carRB.velocity.magnitude);
+        if (magnitude > 0 && magnitude < 0.05f) {
+            carRB.velocity = new Vector2(0, 0);
+        }
+        else {
+            carIsDrifting = true;
+            carRB.AddForce(-carRB.velocity * 2);
+        }
     }
 }
