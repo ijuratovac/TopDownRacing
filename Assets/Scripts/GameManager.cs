@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
 
     int currentScene = 0;
 
+    LevelLoader levelLoader;
+
     void Awake() {
         if (sharedInstance != null && sharedInstance != this) {
             Destroy(gameObject);
@@ -21,14 +23,6 @@ public class GameManager : MonoBehaviour {
         }
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void Start() {
-        quitBtn = GameObject.Find("Quit").GetComponent<Button>();
-        quitBtn.onClick.AddListener(Quit);
-
-        startBtn = GameObject.Find("Start").GetComponent<Button>();        
-        startBtn.onClick.AddListener(LoadA1);
     }
 
     void Update() {
@@ -43,6 +37,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Quit() {
+        UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
     }
 
@@ -61,17 +56,20 @@ public class GameManager : MonoBehaviour {
     }
 
     void LoadA1() {
-        SceneManager.LoadScene(2);
+        levelLoader.LoadLevel(2);
+        //SceneManager.LoadScene(2);
         currentScene = 2;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.buildIndex == 0) {
-            quitBtn = GameObject.Find("Quit").GetComponent<Button>();
+            //quitBtn = GameObject.Find("Quit").GetComponent<Button>();
             quitBtn.onClick.AddListener(Quit);
 
-            startBtn = GameObject.Find("Start").GetComponent<Button>();
+            //startBtn = GameObject.Find("Start").GetComponent<Button>();
             startBtn.onClick.AddListener(LoadA1);
+
+            levelLoader = GetComponent<LevelLoader>();
         }
     }
 }

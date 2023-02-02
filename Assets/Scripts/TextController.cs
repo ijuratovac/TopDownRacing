@@ -3,39 +3,46 @@ using UnityEngine;
 
 public class TextController : MonoBehaviour {
 
-    TMP_Text textMesh;
+	public TMP_Text countdown;
+	public TMP_Text timer;
 
-    public CarController carController;
+	public CarController carController;
 
-    // Start is called before the first frame update
-    void Start() {
-        textMesh = GetComponent<TMP_Text>();
-        textMesh.text = "3";
-    }
+	void Start() {
+		countdown.text = "3";
+	}
 
-    // Update is called once per frame
-    void Update() {
-        if (Time.timeSinceLevelLoad < 0.7f) {
-            textMesh.text = "3";
-        }
-        else if (Time.timeSinceLevelLoad < 1.4f) {
-            textMesh.text = "2";
-        }
-        else if (Time.timeSinceLevelLoad < 2.1f) {
-            textMesh.text = "1";
-        }
-        else if (Time.timeSinceLevelLoad < 2.8f) {
-            textMesh.text = "GO!";
-            if (!carController.ControlsAreEnabled()) {
-                carController.EnableControls();
-            }
-        }
-        else if (Time.timeSinceLevelLoad < 2.9f && textMesh.isActiveAndEnabled) {
-            textMesh.enabled = false;
-        }
-        else if (!carController.ControlsAreEnabled() && !textMesh.isActiveAndEnabled) {
-            textMesh.enabled = true;
-            textMesh.text = carController.GetRunTime().ToString("#.##");
-        }
+	void Update() {
+		if (Time.timeSinceLevelLoad < 0.7f) {
+			countdown.text = "3";
+		}
+		else if (Time.timeSinceLevelLoad < 1.4f) {
+			countdown.text = "2";
+		}
+		else if (Time.timeSinceLevelLoad < 2.1f) {
+			countdown.text = "1";
+		}
+		else if (Time.timeSinceLevelLoad < 2.8f) {
+			countdown.text = "GO!";
+			if (!carController.ControlsAreEnabled()) {
+				carController.EnableControls();
+			}
+		}
+		else if (Time.timeSinceLevelLoad < 2.9f && countdown.isActiveAndEnabled) {
+			countdown.enabled = false;
+		}
+		else if (!carController.ControlsAreEnabled() && !countdown.isActiveAndEnabled) {
+			timer.enabled = false;
+			countdown.enabled = true;
+
+            countdown.text = timer.text;
+		}
+
+        float time = carController.GetRunTime();
+        float minutes = Mathf.Floor(time / 60);
+        float seconds = Mathf.Floor(time % 60);
+        float decimals = Mathf.Round((time - Mathf.Floor(time)) * 100) % 100;
+
+        timer.text = $"{minutes}:{seconds:00}.{decimals:00}";
     }
 }
