@@ -224,7 +224,7 @@ public class CarController : MonoBehaviour {
     }
 
     private void HandleBraking(Vector2 inputVector) {
-        Vector2 brakeVelocity = -carRB.velocity;
+        Vector2 brakeVelocity = -carRB.velocity / 2;
         // Going backwards
         if (velocityVsUp < -0.1f) {
             if (accelerationInput > 0) {
@@ -253,7 +253,7 @@ public class CarController : MonoBehaviour {
             accelerationInput = inputVector.y;
             // Stop the car if there's no acceleration and it's moving very slowly
             if (accelerationInput == 0 && Mathf.Abs(carRB.velocity.magnitude) < 0.05f) {
-                carRB.velocity = new Vector2(0, 0);
+                carRB.velocity = Vector2.zero;
             }
         }
     }
@@ -281,7 +281,7 @@ public class CarController : MonoBehaviour {
     private void StopTheCar() {
         float magnitude = Mathf.Abs(carRB.velocity.magnitude);
         if (magnitude > 0 && magnitude < 0.05f) {
-            carRB.velocity = new Vector2(0, 0);
+            carRB.velocity = Vector2.zero;
         }
         else {
             carIsDrifting = true;
