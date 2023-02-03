@@ -63,13 +63,15 @@ public class CarController : MonoBehaviour {
         // Calculate velocity with the direction of the car (negative = reverse)
         velocityVsUp = Vector2.Dot(transform.up, carRB.velocity);
 
-        // Limit so we cannot drive forwards faster than the max speed
+        // Limit forwards speed to the max speed
         if (velocityVsUp > maxSpeed && accelerationInput > 0) {
+            carRB.AddForce(-carRB.velocity / 2);
             return;
         }
 
-        // Limit so we cannot drive reverse faster than 20% of max speed
-        if (velocityVsUp < -maxSpeed * 0.2f && accelerationInput < 0) {
+        // Limit reversing speed to 25% of max speed
+        if (velocityVsUp < -maxSpeed * 0.25f && accelerationInput < 0) {
+            carRB.AddForce(-carRB.velocity / 2);
             return;
         }
 
@@ -168,14 +170,14 @@ public class CarController : MonoBehaviour {
         driftFactor = 0.95f;
         accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.5f, 10f);
         turnFactor = 0.8f;
-        maxSpeed = 6.0f;
+        maxSpeed = 6f;
         carRB.angularDrag = 2;
         surface = "Asphalt";
     }
 
     public void setDirtGrip() {
         driftFactor = 0.96f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 10f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 9f);
         turnFactor = 1f;
         maxSpeed = 5f;
         carRB.angularDrag = 3;
@@ -183,7 +185,7 @@ public class CarController : MonoBehaviour {
 
     public void setSandGrip() {
         driftFactor = 0.98f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.5f, 10f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.5f, 7f);
         turnFactor = 0.5f;
         maxSpeed = 2f;
         carRB.angularDrag = 2;
@@ -192,7 +194,7 @@ public class CarController : MonoBehaviour {
 
     public void setGrassGrip() {
         driftFactor = 0.97f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 10f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 8f);
         turnFactor = 1f;
         maxSpeed = 3f;
         carRB.angularDrag = 2;

@@ -13,6 +13,10 @@ public class CarInputHandler : MonoBehaviour {
     }
 
     void Update() {
+        HandleMovement();
+    }
+
+    void HandleMovement() {
         Vector2 inputVector = Vector2.zero;
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
