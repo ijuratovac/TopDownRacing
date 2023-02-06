@@ -16,17 +16,18 @@ public class TextController : MonoBehaviour {
 	void Update() {
 		SetTime();
 		SetSpeed();
-        SetCountdown();
-    }
+		SetCountdown();
+	}
 
 	void SetTime() {
-        float time = carController.GetRunTime();
-        float minutes = Mathf.Floor(time / 60);
-        float seconds = Mathf.Floor(time % 60);
-        float decimals = Mathf.Round((time - Mathf.Floor(time)) * 100) % 100;
-
-        timer.text = $"{minutes}:{seconds:00}.{decimals:00}";
-    }
+		if (carController.ControlsAreEnabled()) {
+			float time = carController.GetRunTime();
+			float minutes = Mathf.Floor(time / 60);
+			float seconds = Mathf.Floor(time % 60);
+			float decimals = Mathf.Round((time - Mathf.Floor(time)) * 100) % 100;
+			timer.text = $"{minutes}:{seconds:00}.{decimals:00}";
+		}
+	}
 
 	void SetSpeed() {
 		int carSpeed = (int) Mathf.Floor(carController.GetCarSpeed() * 20);
@@ -34,30 +35,30 @@ public class TextController : MonoBehaviour {
 	}
 
 	void SetCountdown() {
-        if (Time.timeSinceLevelLoad < 0.7f) {
-            countdown.text = "3";
-        }
-        else if (Time.timeSinceLevelLoad < 1.4f) {
-            countdown.text = "2";
-        }
-        else if (Time.timeSinceLevelLoad < 2.1f) {
-            countdown.text = "1";
-        }
-        else if (Time.timeSinceLevelLoad < 2.8f) {
-            countdown.text = "GO!";
-            if (!carController.ControlsAreEnabled()) {
-                carController.EnableControls();
-            }
-        }
-        else if (Time.timeSinceLevelLoad < 2.9f && countdown.isActiveAndEnabled) {
-            countdown.enabled = false;
-        }
-        else if (!carController.ControlsAreEnabled() && !countdown.isActiveAndEnabled) {
-            timer.enabled = false;
-            speed.enabled = false;
-            countdown.enabled = true;
+		if (Time.timeSinceLevelLoad < 0.7f) {
+			countdown.text = "3";
+		}
+		else if (Time.timeSinceLevelLoad < 1.4f) {
+			countdown.text = "2";
+		}
+		else if (Time.timeSinceLevelLoad < 2.1f) {
+			countdown.text = "1";
+		}
+		else if (Time.timeSinceLevelLoad < 2.8f) {
+			countdown.text = "GO!";
+			if (!carController.ControlsAreEnabled()) {
+				carController.EnableControls();
+			}
+		}
+		else if (Time.timeSinceLevelLoad < 2.9f && countdown.isActiveAndEnabled) {
+			countdown.enabled = false;
+		}
+		else if (!carController.ControlsAreEnabled() && !countdown.isActiveAndEnabled) {
+			timer.enabled = false;
+			speed.enabled = false;
+			countdown.enabled = true;
 
-            countdown.text = timer.text;
-        }
-    }
+			countdown.text = timer.text;
+		}
+	}
 }
