@@ -159,33 +159,33 @@ public class CarController : MonoBehaviour {
 
     public void setAsphaltGrip() {
         driftFactor = 0.7f;
-        accelerationFactor = 0.8f;
+        accelerationFactor = 0.9f;
         turnFactor = 0.8f;
-        maxSpeed = 6.0f;
+        maxSpeed = 6f;
         carRB.angularDrag = 10;
         surface = "Asphalt";
     }
 
     public void setDriftGrip() {
         driftFactor = 0.95f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.5f, 10f);
-        turnFactor = 0.8f;
+        accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.7f, 10f);
+        turnFactor = 1f;
         maxSpeed = 6f;
-        carRB.angularDrag = 2;
+        carRB.angularDrag = 3;
         surface = "Asphalt";
     }
 
     public void setDirtGrip() {
         driftFactor = 0.96f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 9f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.7f, 10f);
         turnFactor = 1f;
-        maxSpeed = 5f;
+        maxSpeed = 6f;
         carRB.angularDrag = 3;
     }
 
     public void setSandGrip() {
         driftFactor = 0.98f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.5f, 7f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.7f, 7f);
         turnFactor = 0.5f;
         maxSpeed = 2f;
         carRB.angularDrag = 2;
@@ -194,7 +194,7 @@ public class CarController : MonoBehaviour {
 
     public void setGrassGrip() {
         driftFactor = 0.97f;
-        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.5f, 8f);
+        accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.7f, 8f);
         turnFactor = 1f;
         maxSpeed = 3f;
         carRB.angularDrag = 2;
@@ -224,12 +224,12 @@ public class CarController : MonoBehaviour {
     }
 
     private void HandleBraking(Vector2 inputVector) {
-        Vector2 brakeVelocity = -carRB.velocity / 2;
+        Vector2 brakeDirection = -carRB.velocity.normalized;
         // Going backwards
         if (velocityVsUp < -0.1f) {
             if (accelerationInput > 0) {
                 accelerationInput = 0;
-                carRB.AddForce(brakeVelocity);
+                carRB.AddForce(brakeDirection / 2);
                 carIsDrifting = true;
                 driftDelay = timer;
             }
@@ -241,7 +241,7 @@ public class CarController : MonoBehaviour {
         else if (velocityVsUp > 0.1f) {
             if (accelerationInput < 0) {
                 accelerationInput = 0;
-                carRB.AddForce(brakeVelocity / 2);
+                carRB.AddForce(brakeDirection / 2);
                 carIsDrifting = true;
                 driftDelay = timer;
             }
@@ -259,7 +259,7 @@ public class CarController : MonoBehaviour {
     }
 
     public float GetCarSpeed() {
-        return velocityVsUp;
+        return carRB.velocity.magnitude;
     }
 
     public float GetRunTime() {
