@@ -69,8 +69,8 @@ public class CarController : MonoBehaviour {
 			return;
 		}
 
-		// Limit reversing speed to 25% of max speed
-		if (velocityVsUp < -maxSpeed * 0.25f && accelerationInput < 0) {
+		// Limit reversing speed
+		if (velocityVsUp < -1 && accelerationInput < 0) {
 			carRB.AddForce(-carRB.velocity / 2);
 			return;
 		}
@@ -161,42 +161,42 @@ public class CarController : MonoBehaviour {
 		driftFactor = 0.7f;
 		accelerationFactor = 0.9f;
 		turnFactor = 0.8f;
-		maxSpeed = 6f;
+		maxSpeed = 6;
 		carRB.angularDrag = 10;
 		surface = "Asphalt";
 	}
 
 	public void setDriftGrip() {
 		driftFactor = 0.95f;
-		accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.7f, 10f);
+		accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.7f, 5f);
 		turnFactor = 1f;
-		maxSpeed = 6f;
+		maxSpeed = 6;
 		carRB.angularDrag = 3;
 		surface = "Asphalt";
 	}
 
 	public void setDirtGrip() {
 		driftFactor = 0.96f;
-		accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.7f, 10f);
+		accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.7f, 5f);
 		turnFactor = 1f;
-		maxSpeed = 6f;
+		maxSpeed = 6;
 		carRB.angularDrag = 3;
 	}
 
 	public void setSandGrip() {
 		driftFactor = 0.98f;
-		accelerationFactor = Mathf.Clamp(driftAngle / 30, 0.7f, 7f);
-		turnFactor = 0.5f;
-		maxSpeed = 2f;
+		accelerationFactor = Mathf.Clamp(driftAngle / 40, 0.5f, 5f);
+		turnFactor = 0.8f;
+		maxSpeed = 2;
 		carRB.angularDrag = 2;
 		surface = "Sand";
 	}
 
 	public void setGrassGrip() {
 		driftFactor = 0.97f;
-		accelerationFactor = Mathf.Clamp(driftAngle / 15, 0.7f, 8f);
+		accelerationFactor = Mathf.Clamp(driftAngle / 20, 0.7f, 5f);
 		turnFactor = 1f;
-		maxSpeed = 3f;
+		maxSpeed = 3;
 		carRB.angularDrag = 2;
 		surface = "Grass";
 	}
