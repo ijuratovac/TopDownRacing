@@ -40301,6 +40301,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89d3a2aa024f6354f892fb83a890ee18, type: 3}
+--- !u!114 &906338625 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7884866557924811845, guid: 89d3a2aa024f6354f892fb83a890ee18, type: 3}
+  m_PrefabInstance: {fileID: 906338624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 772822cd38705f94bab955a057182610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &906720054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7159454476452995072, guid: 03d39f5de34097243b388e29120d1bf3, type: 3}
@@ -70693,6 +70704,7 @@ MonoBehaviour:
   bestTime: {fileID: 425276883}
   difference: {fileID: 729976112}
   carController: {fileID: 206754142}
+  trackRecord: {fileID: 906338625}
 --- !u!114 &1592555426
 MonoBehaviour:
   m_ObjectHideFlags: 0

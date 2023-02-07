@@ -14,13 +14,9 @@ public class UIController : MonoBehaviour {
 
 	public CarController carController;
 
-	string map;
-
-	float time;
+	public TrackRecord trackRecord;
 
 	void Start() {
-		map = SceneManager.GetActiveScene().name;
-        //PlayerPrefs.DeleteKey(map); // Delete the record on the map
         newRecord.enabled = false;
 		difference.enabled = false;
 		countdown.text = "3";
@@ -34,19 +30,17 @@ public class UIController : MonoBehaviour {
 	}
 
 	void SetBestTime() {
-		float storedBestTime = PlayerPrefs.GetFloat(map, 0f);
-		if (storedBestTime == 0f) {
+		if (trackRecord.NoTimeSet()) {
 			bestTime.text = "(no time set)";
 		}
 		else {
-			bestTime.text = FormatTime(storedBestTime);
+			bestTime.text = FormatTime(trackRecord.GetRecord());
 		}
 	}
 
 	void SetTimer() {
 		if (carController.ControlsAreEnabled()) {
-			time = carController.GetRunTime();
-			timer.text = FormatTime(time);
+			timer.text = FormatTime(trackRecord.GetCurrentTime());
 		}
 	}
 
@@ -75,17 +69,13 @@ public class UIController : MonoBehaviour {
 			countdown.enabled = false;
 		}
 		else if (!carController.ControlsAreEnabled() && !countdown.isActiveAndEnabled) {
-			bool noTimeSet = false;
-			if (PlayerPrefs.GetFloat(map, 0) == 0) {
-				noTimeSet = true;
-            }
-
-			if (noTimeSet) {
-				SetNewRecord();
+			if (trackRecord.NoTimeSet()) {
+				trackRecord.SetNewRecord();
+                newRecord.enabled = true;
             }
 			else {
                 // Show time difference between the new time and track record
-                float timeDifference = float.Parse((time - PlayerPrefs.GetFloat(map)).ToString("0.00"));
+                float timeDifference = trackRecord.GetTimeDifference();
                 if (timeDifference > 0) {
                     difference.color = Color.red;
                     difference.text = $"+{FormatTime(Mathf.Abs(timeDifference))}";
@@ -93,7 +83,8 @@ public class UIController : MonoBehaviour {
                 else {
                     difference.color = Color.green;
                     difference.text = $"-{FormatTime(Mathf.Abs(timeDifference))}";
-                    SetNewRecord();
+                    trackRecord.SetNewRecord();
+                    newRecord.enabled = true;
                 }
 
                 difference.enabled = true;
@@ -106,11 +97,6 @@ public class UIController : MonoBehaviour {
 			countdown.text = timer.text;
 		}
 	}
-
-	void SetNewRecord() {
-        PlayerPrefs.SetFloat(map, time);
-        newRecord.enabled = true;
-    }
 
 	string FormatTime(float time) {
 		float minutes = Mathf.Floor(time / 60);

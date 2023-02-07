@@ -12,7 +12,7 @@ public class CheckpointManager : MonoBehaviour {
 	private void Start() {
 		carController = GetComponent<CarController>();
 		totalCheckpoints = checkpoints.Count;
-		Debug.Log($"Checkpoints left: {checkpoints.Count}");
+		Debug.Log($"Checkpoints left: {totalCheckpoints}");
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {

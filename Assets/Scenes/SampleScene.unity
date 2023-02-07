@@ -1156,6 +1156,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3483269026438422845, guid: 8964d8097a2743d45994e91770d59abf, type: 3}
   m_PrefabInstance: {fileID: 1171096455}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1181912551 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7884866557924811845, guid: 89d3a2aa024f6354f892fb83a890ee18, type: 3}
+  m_PrefabInstance: {fileID: 906338624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 772822cd38705f94bab955a057182610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1235217556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1458,6 +1469,7 @@ MonoBehaviour:
   bestTime: {fileID: 562381831}
   difference: {fileID: 504435593}
   carController: {fileID: 206754142}
+  trackRecord: {fileID: 1181912551}
 --- !u!114 &1307535700
 MonoBehaviour:
   m_ObjectHideFlags: 0
