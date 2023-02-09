@@ -43,4 +43,8 @@ public class GameManager : MonoBehaviour {
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		currentScene = scene.buildIndex;
 	}
+
+    public void ResetEverything() {
+        PlayerPrefs.DeleteAll();
+    }
 }

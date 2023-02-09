@@ -38,7 +38,6 @@ public class GhostCarDataListItem : ISerializationCallbackReceiver {
     }
 
     public void OnBeforeSerialize() {
-        //Divide by 1000 gives 2 decimal accuracy which is good enough
         t = (int)(timeSinceLevelLoaded * 1000.0f);
 
         x = (int)(position.x * 1000.0f);
@@ -46,18 +45,15 @@ public class GhostCarDataListItem : ISerializationCallbackReceiver {
 
         s = (int)(localScale.x * 1000.0f);
 
-        //Rotation doesn't need any decimals so we just keep it as an int
         r = Mathf.RoundToInt(rotationZ);
     }
 
     public void OnAfterDeserialize() {
-        //Multiply with 1000 gives 2 decimal accuracy which is good enough
         timeSinceLevelLoaded = t / 1000.0f;
         position.x = x / 1000.0f;
         position.y = y / 1000.0f;
         localScale = new Vector3(s / 1000.0f, s / 1000.0f, s / 1000.0f);
 
-        //Rotation doesn't need any decimals so we just keep it as an int
         rotationZ = r;
     }
 }

@@ -49,16 +49,12 @@ public class GhostCarRecorder : MonoBehaviour {
     void SaveData() {
         string jsonEncodedData = JsonUtility.ToJson(ghostCarData);
 
-        Debug.Log($"Saved ghost data {jsonEncodedData}");
-
         if (carInputHandler != null) {
             PlayerPrefs.SetString($"{SceneManager.GetActiveScene().name}_ghost", jsonEncodedData);
             PlayerPrefs.Save();
         }
 
-        //Stop recording as we have already saved the data
         isRecording = false;
-
     }
 
 }

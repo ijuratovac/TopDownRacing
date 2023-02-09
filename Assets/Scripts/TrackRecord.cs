@@ -3,20 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class TrackRecord : MonoBehaviour {
 
-    string map;
-
-    float time;
-
     CarController carController;
 
     GhostCarRecorder ghostRecorder;
 
-    private void Awake() {
-        
+    string map;
+    float time;
+
+    void Awake() {
+        map = SceneManager.GetActiveScene().name;
     }
 
     void Start() {
-        map = SceneManager.GetActiveScene().name;
         //PlayerPrefs.DeleteKey(map); // Delete the record on the map
         //PlayerPrefs.DeleteKey($"{map}_ghost"); // Delete the ghost on the map
         carController = GetComponent<CarController>();
@@ -48,6 +46,6 @@ public class TrackRecord : MonoBehaviour {
     }
 
     public float GetTimeDifference() {
-        return float.Parse((time - PlayerPrefs.GetFloat(map)).ToString("0.00"));
+        return time - PlayerPrefs.GetFloat(map);
     }
 }

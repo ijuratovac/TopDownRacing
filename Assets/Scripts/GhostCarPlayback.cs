@@ -48,9 +48,14 @@ public class GhostCarPlayback : MonoBehaviour {
         float lerpPercentage = timePassed / duration;
 
         //Lerp everything
-        transform.position = Vector2.Lerp(lastStoredPostion, ghostCarDataList[currentPlaybackIndex].position, lerpPercentage);
-        transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, lastStoredRotation), Quaternion.Euler(0, 0, ghostCarDataList[currentPlaybackIndex].rotationZ), lerpPercentage);
-        transform.localScale = Vector3.Lerp(lastStoredLocalScale, ghostCarDataList[currentPlaybackIndex].localScale, lerpPercentage);
+        if (currentPlaybackIndex == ghostCarDataList.Count - 1) {
+            DisableGhost();
+        }
+        else {
+            transform.position = Vector2.Lerp(lastStoredPostion, ghostCarDataList[currentPlaybackIndex].position, lerpPercentage);
+            transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, lastStoredRotation), Quaternion.Euler(0, 0, ghostCarDataList[currentPlaybackIndex].rotationZ), lerpPercentage);
+            transform.localScale = Vector3.Lerp(lastStoredLocalScale, ghostCarDataList[currentPlaybackIndex].localScale, lerpPercentage);
+        }
     }
 
     public void LoadData() {
@@ -63,6 +68,9 @@ public class GhostCarPlayback : MonoBehaviour {
             ghostCarDataList = ghostCarData.GetDataList();
 
         }
+    }
 
+    public void DisableGhost() {
+        Destroy(this.gameObject);
     }
 }

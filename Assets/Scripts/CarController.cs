@@ -263,7 +263,7 @@ public class CarController : MonoBehaviour {
 	}
 
 	public float GetRunTime() {
-		return runTime;
+		return Mathf.Floor(runTime * 100) / 100f;
 	}
 
 	public bool ControlsAreEnabled() {
