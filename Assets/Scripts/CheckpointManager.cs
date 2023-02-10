@@ -55,4 +55,8 @@ public class CheckpointManager : MonoBehaviour {
 	public int GetCollectedCheckpoints() {
 		return totalCheckpoints - checkpoints.Count;
 	}
+
+	public bool Finished() {
+		return finished;
+	}
 }

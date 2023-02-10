@@ -1,10 +1,9 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIController : MonoBehaviour {
+public class TrackUIController : MonoBehaviour {
 
 	public TMP_Text countdown;
 	public TMP_Text timer;
