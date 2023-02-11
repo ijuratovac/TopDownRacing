@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TrackUIController : MonoBehaviour {
 
@@ -20,15 +21,21 @@ public class TrackUIController : MonoBehaviour {
 
 	public CheckpointManager checkpointManager;
 
-	public bool isTutorial;
+    public Sprite checkmark;
 
-	void Start() {
-        
+	public Image bronzeImage;
+    public Image silverImage;
+    public Image goldImage;
+
+    public bool isTutorial;
+
+    void Start() {
         newRecord.enabled = false;
 		difference.enabled = false;
 		countdown.text = "3";
 		checkpointsTotal.text = $"/{checkpointManager.GetTotalCheckpoints()}";
         SetBestTime();
+		SetMedals();
     }
 
 	void FixedUpdate() {
@@ -47,7 +54,21 @@ public class TrackUIController : MonoBehaviour {
 		}
 	}
 
-	void SetTimer() {
+	void SetMedals() {
+		string map = SceneManager.GetActiveScene().name;
+		int medals = PlayerPrefs.GetInt($"{map}_medals", 0);
+		if (medals >= 1) {
+			bronzeImage.sprite = checkmark;
+		}
+		if (medals >= 2) {
+			silverImage.sprite = checkmark;
+		}
+		if (medals >= 3) {
+			goldImage.sprite = checkmark;
+		}
+	}
+
+        void SetTimer() {
 		if (carController.ControlsAreEnabled()) {
 			timer.text = FormatTime(trackRecord.GetCurrentTime());
 		}

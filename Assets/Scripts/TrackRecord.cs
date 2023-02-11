@@ -15,8 +15,6 @@ public class TrackRecord : MonoBehaviour {
     }
 
     void Start() {
-        //PlayerPrefs.DeleteKey(map); // Delete the record on the map
-        //PlayerPrefs.DeleteKey($"{map}_ghost"); // Delete the ghost on the map
         carController = GetComponent<CarController>();
         ghostRecorder = GetComponent<GhostCarRecorder>();
     }

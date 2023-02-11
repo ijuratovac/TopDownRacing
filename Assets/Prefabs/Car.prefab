@@ -2358,12 +2358,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8017a1f46e796d49af36de516729909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointManager: {fileID: 3539963915493745908}
   trackUI: {fileID: 0}
   medalsUI: {fileID: 0}
   goldTime: 0
   silverTime: 0
   bronzeTime: 0
+  medalText: {fileID: 0}
+  bronzeMedal: {fileID: 0}
+  silverMedal: {fileID: 0}
+  goldMedal: {fileID: 0}
+  checkmark: {fileID: 21300000, guid: 0a98ac446f86cf343bbd5015439945d7, type: 3}
 --- !u!1 &3539963915495374130
 GameObject:
   m_ObjectHideFlags: 0

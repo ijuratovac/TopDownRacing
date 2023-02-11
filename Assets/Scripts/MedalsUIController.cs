@@ -35,9 +35,6 @@ public class MedalsUIController : MonoBehaviour {
     }
 
     void Start() {
-        //PlayerPrefs.DeleteKey(map);
-        //PlayerPrefs.DeleteKey($"{map}_ghost");
-        //PlayerPrefs.DeleteKey($"{map}_medals");
         medals = PlayerPrefs.GetInt($"{map}_medals", 0);
         oldRecord = trackRecord.GetRecord();
         if (oldRecord == 0) {
@@ -47,22 +44,20 @@ public class MedalsUIController : MonoBehaviour {
 
     void FixedUpdate() {
         if (checkpointManager.Finished() && !alreadyCalled) {
-            Debug.Log(medals);
             alreadyCalled = true;
-            Invoke("SetMedals", 0.1f);
+            SetMedals();
         }
     }
 
     void SetMedals() {
-        float newRecord = trackRecord.GetRecord();
-        Debug.Log(oldRecord);
-        Debug.Log(newRecord);
-        if (oldRecord > newRecord) {
+        float newRecord = trackRecord.GetCurrentTime();
+        if (oldRecord > newRecord && medals < 3) {
             List<string> awarded = CheckAwardedMedals(newRecord);
             if (awarded.Count > 0) {
                 HandleText(awarded.Count);
                 ShowMedals(awarded);
                 SwitchUI();
+                AnimateMedals(awarded);
                 PlayerPrefs.SetInt($"{map}_medals", medals + awarded.Count);
             }
         }
@@ -119,14 +114,26 @@ public class MedalsUIController : MonoBehaviour {
             goldMedal.SetActive(false);
         }
         if (total == 2) {
-            bronzeMedal.SetActive(false);
+            bronzeMedal.SetActive(true);
             silverMedal.SetActive(true);
             goldMedal.SetActive(false);
         }
         if (total == 3) {
-            bronzeMedal.SetActive(false);
-            silverMedal.SetActive(false);
+            bronzeMedal.SetActive(true);
+            silverMedal.SetActive(true);
             goldMedal.SetActive(true);
+        }
+    }
+
+    void AnimateMedals(List<string> awarded) {
+        if (awarded.Contains("bronze")) {
+            bronzeMedal.GetComponent<Animator>().SetBool("rotating", true);
+        }
+        if (awarded.Contains("silver")) {
+            silverMedal.GetComponent<Animator>().SetBool("rotating", true);
+        }
+        if (awarded.Contains("gold")) {
+            goldMedal.GetComponent<Animator>().SetBool("rotating", true);
         }
     }
 
