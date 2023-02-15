@@ -124,12 +124,9 @@ public class CarController : MonoBehaviour {
 		Vector2 forwardVelocity = transform.up * Vector2.Dot(carRB.velocity, transform.up);
 		Vector2 rightVelocity = transform.right * Vector2.Dot(carRB.velocity, transform.right);
 
-		// How fast the car is moving sideways
 		driftAngle = Vector2.Angle(forwardVelocity, carRB.velocity);
 
-		// If the car has low side movement and 0.3s has passed
 		if (Mathf.Abs(driftAngle) < 5 && (timer - driftDelay) > 0.3f) {
-			// Stop drifting
 			carIsDrifting = false;
 		}
 
@@ -202,6 +199,9 @@ public class CarController : MonoBehaviour {
 	}
 
 	public bool IsTireScreeching() {
+		if (Mathf.Abs(carRB.velocity.magnitude) < 0.05f) {
+			return false;
+		}
 		if (surface == "Asphalt" && carIsDrifting == false) {
 			return false;
 		}
@@ -276,6 +276,10 @@ public class CarController : MonoBehaviour {
 
 	public void DisableControls() {
 		controlsEnabled = false;
+	}
+
+	public float GetDriftAngle() {
+		return driftAngle;
 	}
 
 	private void StopTheCar() {
