@@ -44,7 +44,11 @@ public class GameManager : MonoBehaviour {
 		currentScene = scene.buildIndex;
 	}
 
-    public void ResetEverything() {
-        PlayerPrefs.DeleteAll();
+    public void DeleteAllRecords() {
+		for (int i = 1; i <= 3; i++) {
+			PlayerPrefs.DeleteKey($"A{i}");
+            PlayerPrefs.DeleteKey($"A{i}_medals");
+            PlayerPrefs.DeleteKey($"A{i}_ghost");
+        }
     }
 }
