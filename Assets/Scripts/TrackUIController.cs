@@ -124,7 +124,7 @@ public class TrackUIController : MonoBehaviour {
 			speed.enabled = false;
             countdown.enabled = true;
             if (isTutorial) {
-				countdown.text = "";
+				countdown.text = "Finished!";
             }
 			else {
                 countdown.text = FormatTime(trackRecord.GetCurrentTime());

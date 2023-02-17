@@ -82,7 +82,7 @@ public class CarSFXHandler : MonoBehaviour {
 
     void HandleDriftSounds(string surface, AudioSource audioSource) {
         if (carController.IsTireScreeching() && currentSurface == surface) {
-            audioSource.volume = Mathf.Clamp01(Mathf.Pow(currentSpeed, 2) / 3000);
+            audioSource.volume = Mathf.Clamp01(Mathf.Pow(currentSpeed, 2) / 2000);
         }
         else {
             audioSource.volume = Mathf.Lerp(audioSource.volume, 0, Time.deltaTime * 10);

@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Drifting.unity
     guid: 581628b9083b69c4bb9628a7085abf53
+  - enabled: 1
+    path: Assets/Scenes/Start Scene.unity
+    guid: 28caa5594dbc95f429557ffbcd5410ce
   m_configObjects: {}
