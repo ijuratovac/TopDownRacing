@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update() {
-		if (currentScene >= 1) {
+		if (currentScene >= 2) {
 			if (Input.GetKeyDown(KeyCode.Escape)) {
 				LoadMainMenu();
 			}
@@ -46,21 +46,21 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void LoadMainMenu() {
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		if (currentScene != scene.buildIndex) {
-            if (scene.buildIndex == 0) {
+            if (scene.name == "MainMenu") {
 				SwitchMusic(menuMusic, new List<AudioSource>() { A1Music, A2Music, A3Music });
             }
-            else if (scene.buildIndex == 1) {
+            else if (scene.name == "A1") {
                 SwitchMusic(A1Music, new List<AudioSource>() { menuMusic, A2Music, A3Music });
             }
-            else if (scene.buildIndex == 2) {
+            else if (scene.name == "A2") {
                 SwitchMusic(A2Music, new List<AudioSource>() { menuMusic, A1Music, A3Music });
             }
-            else if (scene.buildIndex == 3) {
+            else if (scene.name == "A3") {
                 SwitchMusic(A3Music, new List<AudioSource>() { menuMusic, A1Music, A2Music });
             }
             currentScene = scene.buildIndex;
