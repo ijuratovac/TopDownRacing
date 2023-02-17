@@ -6620,8 +6620,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 2105192285}
+        m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
         m_MethodName: DeleteAllRecords
         m_Mode: 1
         m_Arguments:
