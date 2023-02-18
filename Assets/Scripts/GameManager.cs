@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
-		LoadMainMenu();
+        LoadMainMenu();
 	}
 
 	void Update() {
@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour {
             }
             else if (scene.name == "A4") {
                 SwitchMusic(musicList[4]);
+            }
+            else if (scene.name == "A5") {
+                SwitchMusic(musicList[5]);
             }
             currentScene = scene.buildIndex;
         }

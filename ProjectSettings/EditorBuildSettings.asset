@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/A4.unity
     guid: 252ca1b29b80d9e49b1badc6ae42fecf
   - enabled: 1
+    path: Assets/Scenes/A5.unity
+    guid: b759a453116a7104b9c23973bd4bd980
+  - enabled: 1
     path: Assets/Scenes/Driving.unity
     guid: 3e6c03a9a116c7a45b2e9cea7456c1b6
   - enabled: 1
