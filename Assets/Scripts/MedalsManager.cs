@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class MedalsManager : MonoBehaviour {
 
-    public TMP_Text totalMedals;
+    [Header("Texts")]
+    public TMP_Text totalMedalsText;
+    public TMP_Text lockedText;
 
+    [Header("Locked Buttons")]
+    public GameObject lockedA2;
+    public GameObject lockedA3;
+
+    [Header("")]
     public List<TMP_Text> mapMedalsList;
 
+    int totalMedals = 0;
+
     public void LoadMedalData() {
-        int total = 0;
+        lockedA2.SetActive(true);
+        lockedA3.SetActive(true);
+
+        totalMedals = 0;
+
         for (int i = 0; i < mapMedalsList.Count; i++) {
             int mapMedals = PlayerPrefs.GetInt($"A{i+1}_medals");
             mapMedalsList[i].text = $"{mapMedals}/3";
@@ -19,8 +32,20 @@ public class MedalsManager : MonoBehaviour {
             else {
                 mapMedalsList[i].color = Color.white;
             }
-            total += mapMedals;
+            totalMedals += mapMedals;
         }
-        totalMedals.text = $"{total}/9";
+
+        totalMedalsText.text = $"{totalMedals}/9";
+
+        if (totalMedals >= 1) {
+            lockedA2.SetActive(false);
+        }
+        if (totalMedals >= 3) {
+            lockedA3.SetActive(false);
+        }
+    }
+
+    public void LockedText(string text) {
+        lockedText.text = text;
     }
 }
