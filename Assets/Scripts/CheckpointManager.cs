@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour {
 
-	CarController carController;
+    public List<GameObject> checkpoints;
+	public AudioSource checkpointSFX;
 
-	public List<GameObject> checkpoints;
+    CarController carController;
+
 	int totalCheckpoints;
 	bool finished = false;
 	bool finishNotTriggered = false;
@@ -24,6 +26,8 @@ public class CheckpointManager : MonoBehaviour {
 			// Remove the checkpoint from the list if it exists
 			if (checkpoints.Contains(collision.gameObject)) {
 				checkpoints.Remove(collision.gameObject);
+				Destroy(collision.gameObject);
+				checkpointSFX.Play();
 			}
 		}
 		else if (collision.CompareTag("Finish")) {

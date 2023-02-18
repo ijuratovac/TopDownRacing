@@ -7,6 +7,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public Slider slider;
 	public GameObject loadingScene;
+	public AudioSource clickSFX;
 
 	public void LoadLevel(string sceneName) {
 		StartCoroutine(LoadAsynchronously(sceneName));
@@ -24,6 +25,10 @@ public class LevelLoader : MonoBehaviour {
 
 			yield return null;
 		}
+	}
+
+	public void ClickSound() {
+		clickSFX.Play();
 	}
 
     public void DeleteAllRecords() {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -43,9 +42,9 @@ public class GameManager : MonoBehaviour {
 
 	void ReloadScene() {
 		SceneManager.LoadScene(currentScene);
-	}
+    }
 
-	void LoadMainMenu() {
+    void LoadMainMenu() {
 		SceneManager.LoadScene("MainMenu");
 	}
 

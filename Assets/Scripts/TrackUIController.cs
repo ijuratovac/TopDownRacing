@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +5,8 @@ using UnityEngine.UI;
 
 public class TrackUIController : MonoBehaviour {
 
-	public TMP_Text countdown;
+    [Header("Texts")]
+    public TMP_Text countdown;
 	public TMP_Text timer;
 	public TMP_Text speed;
 	public TMP_Text newRecord;
@@ -15,18 +15,23 @@ public class TrackUIController : MonoBehaviour {
 	public TMP_Text checkpointsCollected;
 	public TMP_Text checkpointsTotal;
 
-	public CarController carController;
-
+    [Header("Scripts")]
+    public CarController carController;
 	public TrackRecord trackRecord;
-
 	public CheckpointManager checkpointManager;
 
+    [Header("Sprites")]
     public Sprite checkmark;
-
 	public Image bronzeImage;
     public Image silverImage;
     public Image goldImage;
 
+	[Header("Sounds")]
+	public AudioSource countdownSFX;
+	public AudioSource startSFX;
+	private int soundCounter = 0;
+
+    [Header("Settings")]
     public bool isTutorial;
 
     void Start() {
@@ -82,16 +87,32 @@ public class TrackUIController : MonoBehaviour {
 	void SetCountdown() {
 		if (Time.timeSinceLevelLoad < 0.7f) {
 			countdown.text = "3";
+			if (soundCounter == 0) {
+                countdownSFX.Play();
+                soundCounter++;
+            }
 		}
 		else if (Time.timeSinceLevelLoad < 1.4f) {
 			countdown.text = "2";
-		}
+            if (soundCounter == 1) {
+                countdownSFX.Play();
+                soundCounter++;
+            }
+        }
 		else if (Time.timeSinceLevelLoad < 2.1f) {
 			countdown.text = "1";
-		}
+            if (soundCounter == 2) {
+                countdownSFX.Play();
+                soundCounter++;
+            }
+        }
 		else if (Time.timeSinceLevelLoad < 2.8f) {
 			countdown.text = "GO!";
-			if (!carController.ControlsAreEnabled()) {
+            if (soundCounter == 3) {
+                startSFX.Play();
+                soundCounter++;
+            }
+            if (!carController.ControlsAreEnabled()) {
 				carController.EnableControls();
 			}
 		}
@@ -121,7 +142,6 @@ public class TrackUIController : MonoBehaviour {
             }
 
             timer.enabled = false;
-			speed.enabled = false;
             countdown.enabled = true;
             if (isTutorial) {
 				countdown.text = "Finished!";

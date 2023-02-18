@@ -8,10 +8,6 @@ public class CarInputHandler : MonoBehaviour {
 		carController = GetComponent<CarController>();
 	}
 
-	void Start() {
-
-	}
-
 	void Update() {
 		HandleMovement();
 	}
