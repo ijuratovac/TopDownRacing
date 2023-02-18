@@ -6,10 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager sharedInstance = null;
 
-	public AudioSource menuMusic;
-	public AudioSource A1Music;
-    public AudioSource A2Music;
-    public AudioSource A3Music;
+	public List<AudioSource> musicList;
 
     int currentScene = -1;
 
@@ -51,27 +48,28 @@ public class GameManager : MonoBehaviour {
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		if (currentScene != scene.buildIndex) {
             if (scene.name == "MainMenu") {
-				SwitchMusic(menuMusic, new List<AudioSource>() { A1Music, A2Music, A3Music });
+				SwitchMusic(musicList[0]);
             }
             else if (scene.name == "A1") {
-                SwitchMusic(A1Music, new List<AudioSource>() { menuMusic, A2Music, A3Music });
+                SwitchMusic(musicList[1]);
             }
             else if (scene.name == "A2") {
-                SwitchMusic(A2Music, new List<AudioSource>() { menuMusic, A1Music, A3Music });
+                SwitchMusic(musicList[2]);
             }
             else if (scene.name == "A3") {
-                SwitchMusic(A3Music, new List<AudioSource>() { menuMusic, A1Music, A2Music });
+                SwitchMusic(musicList[3]);
+            }
+            else if (scene.name == "A4") {
+                SwitchMusic(musicList[4]);
             }
             currentScene = scene.buildIndex;
         }
     }
 
-	void SwitchMusic(AudioSource musicToPlay, List<AudioSource> musicListToStop) {
-        if (!musicToPlay.isPlaying) {
-            musicToPlay.Play();
+	void SwitchMusic(AudioSource musicToPlay) {
+        foreach (AudioSource music in musicList) {
+            music.Stop();
         }
-		foreach (AudioSource music in musicListToStop) {
-			music.Stop();
-		}
+        musicToPlay.Play();
     }
 }

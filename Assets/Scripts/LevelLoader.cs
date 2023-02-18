@@ -27,7 +27,7 @@ public class LevelLoader : MonoBehaviour {
 	}	
 
     public void DeleteAllRecords() {
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 5; i++) {
             PlayerPrefs.DeleteKey($"A{i}");
             PlayerPrefs.DeleteKey($"A{i}_medals");
             PlayerPrefs.DeleteKey($"A{i}_ghost");
